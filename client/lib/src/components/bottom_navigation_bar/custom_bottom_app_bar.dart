@@ -19,7 +19,7 @@ class CustomBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: CustomColor.corporate(),
+      color: CustomColor.blue3(),
       child: SizedBox(
         height: 64,
         child: TabBar(
@@ -30,20 +30,18 @@ class CustomBottomAppBar extends StatelessWidget {
           onTap: onTap,
           indicator: BoxDecoration(
             border: Border(
-              top: BorderSide(color: CustomColor.blue4(), width: 3.0),
+              top: BorderSide(
+                color: CustomColor.blue4(),
+                width: 3.0,
+              ),
             ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                CustomColor.blue3(),
+                CustomColor.blue1(),
                 MediaQuery.of(context).viewPadding.bottom > 0
-                    ? Color.fromRGBO(
-                        CustomColor.blue3().red,
-                        CustomColor.blue3().green,
-                        CustomColor.blue3().blue,
-                        0,
-                      )
+                    ? CustomColor.blue3(opacity: CustomOpacity.inactive)
                     : CustomColor.blue3(),
               ],
             ),

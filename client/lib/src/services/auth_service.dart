@@ -16,13 +16,19 @@ class AuthService {
 
   Future<int> login(String name) async {
     // obtain shared preferences
-    Map<String, dynamic> loginBody = {};
-    loginBody['name'] = name;
-    final response = await NetworkWrapper.post('/v1/authenticate', loginBody);
-    final jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
+    final prefs = await SharedPreferences.getInstance();
+
+    Map<String, dynamic> loginRequestBody = {};
+    loginRequestBody['name'] = name;
+
+    final response =
+        await NetworkWrapper.post('/v1/authenticate', loginRequestBody);
+    final loginResponse = jsonDecode(response.body);
+    print(loginResponse);
+    prefs.setInt('userId', loginResponse['user_id']);
+
     // Simulate a future for response after 2 second.
-    return jsonResponse['user_id'];
+    return loginResponse['user_id'];
   }
 
   // Logout

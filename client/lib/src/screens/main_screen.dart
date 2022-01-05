@@ -35,8 +35,8 @@ class _MainScreenUIState extends State<MainScreenUI>
   late final TabController bottomAppTabController;
 
   final List<Widget> _tabScreens = const [
-    JoinBillNavigator(),
     CreateBillNavigator(),
+    JoinBillNavigator(),
   ];
 
   void _onTap(int? index, BuildContext context) {

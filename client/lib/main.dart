@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:split/src/screens/login_screen/login_screen.dart';
 import 'package:split/src/screens/main_screen.dart';
 import 'package:split/src/services/auth_service.dart';
@@ -11,12 +12,15 @@ AuthService appAuth = AuthService();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //FIXME : remove this after finished login
+  final prefs = await SharedPreferences.getInstance();
+  prefs.remove('userId');
+
   // Set default home.
   Widget _defaultHome = LoginScreen();
 
   // Get result of the login function.
   int _userId = await appAuth.startup();
-  print(_userId);
   if (_userId != -1) {
     _defaultHome = const MainScreen();
   }

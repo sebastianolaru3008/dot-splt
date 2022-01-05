@@ -127,7 +127,7 @@ extension DsmOpacityValue on CustomOpacity {
   static const opacityFull = 1.0;
   static const opacityPrimary = 0.9;
   static const opacitySecondary = 0.6;
-  static const opacityInactive = 0.38;
+  static const opacityInactive = 0.0;
 
   double get value {
     switch (this) {
