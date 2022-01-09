@@ -35,19 +35,13 @@ def authenticate(request):
 def upload_bill(request):
     decoded = request.POST
     file = request.FILES['bill']
-    file_name = default_storage.save(file.name, file)
-    file = default_storage.open(file_name)
-    file_url = default_storage.url(file_name)
-    import os
-    from server.settings import BASE_DIR
-    file_path = os.path.join(BASE_DIR, file_url[1:])
-    products = img_to_bill(file_path)
+    products = img_to_bill(file)
     bill_id = create_new_bill(decoded['author'], products)
     return Response(get_products_response(bill_id))
 
 
 def get_products_response(billid):
-    bill = Bill.objects.get(pk=billid)
+    bill = Bill.objects.get(some_id=billid)
     products = Product.objects.filter(bill_id=bill)
     products = [ProductSerializer(p).data for p in products]
     response = {"bill_id": billid, "products": products}
@@ -56,7 +50,7 @@ def get_products_response(billid):
 
 @api_view(http_method_names=['GET'])
 def get_bill(request):
-    return Response(get_products_response(json.loads(request.body.decode())['bill_id']))
+    return Response(get_products_response(request.GET['bill_id']))
 
 
 @api_view(http_method_names=['POST'])
@@ -64,15 +58,19 @@ def edit_bill(request):
     params = json.loads(request.body.decode())
     user = User.objects.get(pk=params['user_id'])
     print(UserSerializer(user).data)
-    bill = Bill.objects.get(pk=params['bill_id'])
+    bill = Bill.objects.get(some_id=params['bill_id'])
     print(BillSerializer(bill).data)
     products = params['products']
+    total = 0
     for p in products:
+        total += p['price'] * p['quantity']
         current = Product.objects.get(pk=p['id'])
         current.quantity = current.quantity - p['quantity']
         current.save()
         payment = Payments(user_id=user, product_id=current, quantity=p["quantity"])
         payment.save()
-    return Response(get_products_response(params['bill_id']))
+    response = get_products_response(params['bill_id'])
+    response['total_cost'] = total
+    return Response(response)
 
 
