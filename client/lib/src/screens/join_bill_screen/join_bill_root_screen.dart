@@ -1,39 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:split/src/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:progress_indicator_button/progress_button.dart';
+import 'package:split/src/bloc/bill/bill_bloc.dart';
+import 'package:split/src/bloc/bill/bill_event.dart';
+import 'package:split/src/components/top_app_bar/custom_top_app_bar.dart';
+import 'package:split/src/models/bill/bill_json.dart';
+import 'package:split/src/navigation/routes/routes.dart';
+import 'package:split/src/services/billing_service.dart';
+import 'package:split/src/theme/typography.dart';
 
-class JoinBillRootScreen extends StatelessWidget {
+class JoinBillRootScreen extends StatefulWidget {
   const JoinBillRootScreen({Key? key}) : super(key: key);
+
+  @override
+  State<JoinBillRootScreen> createState() => _JoinBillRootScreenState();
+}
+
+class _JoinBillRootScreenState extends State<JoinBillRootScreen> {
+  TextEditingController tokenController = TextEditingController();
+
+  Future httpJob(AnimationController controller) async {
+    controller.forward();
+    if (tokenController.text == "") {
+      controller.reset();
+      return Future;
+    }
+    Bill bill = await BillingService.requestBillProducts(token: tokenController.text);
+    await Future.delayed(
+      const Duration(
+        milliseconds: 500,
+      ),
+    );
+    BlocProvider.of<BillBloc>(context).add(
+      SetBillEvent(currentBill: bill.copyWith()),
+    );
+    Navigator.of(context).pushReplacementNamed(Routes.billScreenRoute);
+    controller.reset();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColor.blue3(),
-        title: Text("Join a bill"),
-      ),
+      appBar: CustomTopAppBar.buildAppBar(context: context, title: "Join bill"),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Center(
-          child: Row(
+          child: Column(
             children: [
-              Expanded(
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: TextField(
+                  controller: tokenController,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Bill Token',
-                      hintText: 'Enter here your bill token'),
+                  decoration: const InputDecoration(
+                      border: UnderlineInputBorder(), labelText: 'Bill Token', hintText: 'Enter here your bill token'),
                 ),
               ),
-              ElevatedButton(
-                child: SizedBox(
-                  height: 48.0,
-                  child: Center(
-                    child: Text("Join"),
-                  ),
+              ProgressButton(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                strokeWidth: 3,
+                child: Text(
+                  "Join bill",
+                  style: CustomTypography.h6(),
                 ),
-                onPressed: () {},
-              )
+                onPressed: (AnimationController controller) async {
+                  httpJob(controller);
+                },
+              ),
+              Spacer(),
             ],
           ),
         ),

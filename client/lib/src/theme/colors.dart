@@ -86,6 +86,21 @@ abstract class CustomColor {
     return Color.fromRGBO(0, 0, 0, opacity.value);
   }
 
+  ///#F5F8F3
+  static const Color greysLevel0 = Color.fromRGBO(245, 248, 254, 1.0);
+
+  ///#BDCBDC
+  static const Color greysLevel2 = Color.fromRGBO(189, 203, 220, 1.0);
+
+  ///#7B92A8
+  static const Color greysLevel3 = Color.fromRGBO(123, 146, 168, 1.0);
+
+  ///#5E7183
+  static const Color greysLevel4 = Color.fromRGBO(94, 113, 131, 1.0);
+
+  ///#262D34
+  static const Color greysLevel5 = Color.fromRGBO(38, 45, 52, 1.0);
+
   //endregion
 
   //region State

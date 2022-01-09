@@ -1,3 +1,4 @@
+from collections import Counter
 from django.http import HttpResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
@@ -8,7 +9,7 @@ from server.db import create_new_bill, create_new_user
 import json
 from server.ocr import img_to_bill
 from server.models import Bill, Payments, Product, User
-from server.serializers import ProductSerializer
+from server.serializers import BillSerializer, ProductSerializer, UserSerializer
 
 
 @api_view(http_method_names=['GET'])
@@ -49,26 +50,29 @@ def get_products_response(billid):
     bill = Bill.objects.get(pk=billid)
     products = Product.objects.filter(bill_id=bill)
     products = [ProductSerializer(p).data for p in products]
-    response = {"billid": billid, "products": products}
+    response = {"bill_id": billid, "products": products}
     return response
 
 
 @api_view(http_method_names=['GET'])
 def get_bill(request):
-    return Response(get_products_response(request.GET['billid']))
+    return Response(get_products_response(json.loads(request.body.decode())['bill_id']))
 
 
 @api_view(http_method_names=['POST'])
 def edit_bill(request):
-    user = User.objects.get(pk=request.POST("userid"))
-    bill = Bill.objects.get(pk=request.POST['billid'])
-    products = request.POST['products']
+    params = json.loads(request.body.decode())
+    user = User.objects.get(pk=params['user_id'])
+    print(UserSerializer(user).data)
+    bill = Bill.objects.get(pk=params['bill_id'])
+    print(BillSerializer(bill).data)
+    products = params['products']
     for p in products:
-        product = Product(pk=p['id'])
-        product.update(product.quatity - p['quantity'])
-        product.save()
-        payment = Payments(user_id=user, product_id=product, quantity=p["quantity"])
+        current = Product.objects.get(pk=p['id'])
+        current.quantity = current.quantity - p['quantity']
+        current.save()
+        payment = Payments(user_id=user, product_id=current, quantity=p["quantity"])
         payment.save()
-    return Response(get_products_response(request.POST['billid']))
+    return Response(get_products_response(params['bill_id']))
 
 

@@ -398,7 +398,7 @@ packages:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   intl:
     dependency: transitive
     description:
@@ -580,7 +580,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   path_provider_windows:
     dependency: transitive
     description:
@@ -615,7 +615,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.2"
   pool:
     dependency: transitive
     description:
@@ -630,6 +630,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  progress_indicator_button:
+    dependency: "direct main"
+    description:
+      name: progress_indicator_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   provider:
     dependency: transitive
     description:

@@ -9,7 +9,7 @@ class AuthService {
   Future<int> startup() async {
     // obtain shared preferences
     final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('userId') ?? -1;
+    final userId = prefs.getInt('user_id') ?? -1;
     // Simulate a future for response after 2 second.
     return userId;
   }
@@ -18,14 +18,12 @@ class AuthService {
     // obtain shared preferences
     final prefs = await SharedPreferences.getInstance();
 
-    Map<String, dynamic> loginRequestBody = {};
+    Map<String, dynamic> loginRequestBody = {"name": name};
     loginRequestBody['name'] = name;
 
-    final response =
-        await NetworkWrapper.post('/v1/authenticate', loginRequestBody);
+    final response = await NetworkWrapper.post('/v1/authenticate', loginRequestBody);
     final loginResponse = jsonDecode(response.body);
-    print(loginResponse);
-    prefs.setInt('userId', loginResponse['user_id']);
+    prefs.setInt('user_id', loginResponse['user_id']);
 
     // Simulate a future for response after 2 second.
     return loginResponse['user_id'];
@@ -34,7 +32,7 @@ class AuthService {
   // Logout
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('userId');
+    prefs.remove('user_id');
     // Simulate a future for response after 1 second.
     return await Future<void>.delayed(const Duration(seconds: 1));
   }

@@ -2,7 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:split/src/bloc/bill/bill_bloc.dart';
+import 'package:split/src/navigation/routes/routes.dart';
+import 'package:split/src/screens/bill_screen/bill_screen.dart';
+import 'package:split/src/screens/bill_screen/invoice_screen.dart';
 import 'package:split/src/screens/login_screen/login_screen.dart';
 import 'package:split/src/screens/main_screen.dart';
 import 'package:split/src/services/auth_service.dart';
@@ -14,7 +19,7 @@ Future<void> main() async {
 
   //FIXME : remove this after finished login
   final prefs = await SharedPreferences.getInstance();
-  prefs.remove('userId');
+  prefs.remove('user_id');
 
   // Set default home.
   Widget _defaultHome = LoginScreen();
@@ -26,8 +31,11 @@ Future<void> main() async {
   }
 
   runApp(
-    MyApp(
-      defaultHome: _defaultHome,
+    BlocProvider(
+      create: (context) => BillBloc(),
+      child: MyApp(
+        defaultHome: _defaultHome,
+      ),
     ),
   );
 }
@@ -46,8 +54,10 @@ class MyApp extends StatelessWidget {
       home: defaultHome,
       routes: <String, WidgetBuilder>{
         // Set routes for using the Navigator.
-        '/home': (BuildContext context) => const MainScreen(),
-        '/login': (BuildContext context) => LoginScreen()
+        Routes.homeScreenRoute: (BuildContext context) => const MainScreen(),
+        Routes.loginScreenRoute: (BuildContext context) => LoginScreen(),
+        Routes.billScreenRoute: (BuildContext context) => const BillScreen(),
+        Routes.invoiceScreenRoute: (BuildContext context) => const InvoiceScreen(),
       },
     );
   }

@@ -10,8 +10,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       id: json['id'] as int,
       name: json['name'] as String,
       price: (json['price'] as num).toDouble(),
-      quantity: (json['quantity'] as num).toDouble(),
-      isCountable: json['isCountable'] as bool,
+      quantity: json['quantity'] as num,
+      is_countable: json['is_countable'] as bool,
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -19,5 +19,5 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'name': instance.name,
       'price': instance.price,
       'quantity': instance.quantity,
-      'isCountable': instance.isCountable,
+      'is_countable': instance.is_countable,
     };

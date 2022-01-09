@@ -6,10 +6,11 @@ import 'package:split/src/bloc/main_screen/main_screen_event.dart';
 import 'package:split/src/bloc/main_screen/main_screen_state.dart';
 import 'package:split/src/components/bottom_navigation_bar/custom_bottom_app_bar.dart';
 import 'package:split/src/components/bottom_navigation_bar/custom_bottom_app_bar_item.dart';
-import 'package:split/src/screens/create_bill_screen/utils/create_bill_navigator.dart';
-import 'package:split/src/screens/join_bill_screen/utils/join_bill_navigator.dart';
+import 'package:split/src/navigation/routes/routes.dart';
+import 'package:split/src/screens/join_bill_screen/join_bill_root_screen.dart';
 import 'package:split/src/utils/assets/image_finder.dart';
-import 'package:split/src/utils/navigation/back_button_handler.dart';
+
+import 'create_bill_screen/create_bill_root_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -30,13 +31,12 @@ class MainScreenUI extends StatefulWidget {
   State<MainScreenUI> createState() => _MainScreenUIState();
 }
 
-class _MainScreenUIState extends State<MainScreenUI>
-    with SingleTickerProviderStateMixin {
+class _MainScreenUIState extends State<MainScreenUI> with SingleTickerProviderStateMixin {
   late final TabController bottomAppTabController;
 
   final List<Widget> _tabScreens = const [
-    CreateBillNavigator(),
-    JoinBillNavigator(),
+    CreateBillRootScreen(),
+    JoinBillRootScreen(),
   ];
 
   void _onTap(int? index, BuildContext context) {
@@ -50,8 +50,7 @@ class _MainScreenUIState extends State<MainScreenUI>
   @override
   void initState() {
     super.initState();
-    bottomAppTabController =
-        TabController(length: _tabScreens.length, vsync: this);
+    bottomAppTabController = TabController(length: _tabScreens.length, vsync: this);
   }
 
   @override
@@ -59,8 +58,10 @@ class _MainScreenUIState extends State<MainScreenUI>
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (BuildContext context, MainScreenState state) {
         return WillPopScope(
-          onWillPop: () => BackButtonHandler.handleMainScreenBackButton(
-              state.bottomNavigationBarIndex),
+          onWillPop: () {
+            Navigator.of(context).popAndPushNamed(Routes.loginScreenRoute);
+            return Future.value(false);
+          },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: Center(
@@ -75,11 +76,11 @@ class _MainScreenUIState extends State<MainScreenUI>
               onTap: (int index) => _onTap(index, context),
               tabs: [
                 CustomBottomAppBarItem(
-                  icon: ImageFinder.infoIcon,
+                  icon: ImageFinder.productsIcon(isFilled: state.bottomNavigationBarIndex == 0),
                   label: "Create",
                 ),
                 CustomBottomAppBarItem(
-                  icon: ImageFinder.infoIcon,
+                  icon: ImageFinder.notificationsIcon(isFilled: state.bottomNavigationBarIndex == 1),
                   label: "Join",
                 ),
               ],

@@ -1,0 +1,5 @@
+Django==3.2.9
+django_heroku==0.3.1
+djangorestframework==3.13.1
+Pillow==9.0.0
+pytesseract==0.3.8

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:progress_indicator_button/progress_button.dart';
 import 'package:split/main.dart';
-import 'package:split/src/theme/colors.dart';
+import 'package:split/src/components/top_app_bar/custom_top_app_bar.dart';
+import 'package:split/src/navigation/routes/routes.dart';
+import 'package:split/src/theme/typography.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,59 +11,58 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _status = 'no-action';
   TextEditingController usernameController = TextEditingController();
+
+  Future httpJob(AnimationController controller) async {
+    controller.forward();
+    int result = await appAuth.login(usernameController.text);
+    await Future.delayed(
+      const Duration(
+        milliseconds: 700,
+      ),
+    );
+    if (result != -1) {
+      Navigator.of(context).pushReplacementNamed(Routes.homeScreenRoute);
+    }
+    controller.reset();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColor.blue3(),
-        toolbarHeight: 0.0,
+      appBar: CustomTopAppBar.buildAppBar(
+        context: context,
+        title: "Login",
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 300.0,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+        ),
+        child: Column(
+          children: [
+            Spacer(),
+            TextField(
+              controller: usernameController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'User Name',
+                hintText: 'Enter your username',
               ),
-              TextField(
-                controller: usernameController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                    hintText: 'Enter your username'),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: ProgressButton(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                strokeWidth: 3,
+                child: Text("Sample", style: CustomTypography.h6()),
+                onPressed: (AnimationController controller) async {
+                  await httpJob(controller);
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  child: Text('Login'),
-                  onPressed: () {
-                    appAuth.login(usernameController.text).then(
-                      (result) {
-                        if (result != -1) {
-                          Navigator.of(context).pushReplacementNamed('/home');
-                        } else {
-                          setState(() => _status = 'rejected');
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 200.0,
-              )
-            ],
-          ),
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );
