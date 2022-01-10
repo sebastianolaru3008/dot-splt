@@ -1,21 +1,41 @@
-import 'package:http/http.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class NetworkWrapper {
-  NetworkWrapper(this._client);
-
-  final Client _client;
+  NetworkWrapper();
 
   //TODO define hostname
-  static const String hostName = '';
+  static const String hostName = 'dot-splt-api.herokuapp.com';
 
-  //TODO create authorization header
-  final Map<String, String>? headers = {};
-
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
+  static Future<http.Response> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, String>? requestHeaders,
+    Map<String, dynamic>? requestBody,
+  }) {
     //TODO verify JWT token before call
-    return _client.get(
-      Uri.http(hostName, path, queryParameters),
-      headers: headers,
+    return http.get(
+      Uri.http(
+        hostName,
+        path,
+        queryParameters,
+      ),
+      headers: requestHeaders,
+    );
+  }
+
+  static Future<http.Response> post(String path, Map<String, dynamic> body,
+      {Map<String, dynamic>? queryParameters, Map<String, String>? requestHeaders}) {
+    //TODO verify JWT token before call
+    return http.post(
+      Uri.http(
+        hostName,
+        path,
+        queryParameters,
+      ),
+      headers: requestHeaders,
+      body: jsonEncode(body),
     );
   }
 }
