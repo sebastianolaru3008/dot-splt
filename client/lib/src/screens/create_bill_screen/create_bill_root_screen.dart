@@ -9,6 +9,7 @@ import 'package:split/src/models/bill/bill_json.dart';
 import 'package:split/src/navigation/routes/routes.dart';
 import 'package:split/src/services/billing_service.dart';
 import 'package:split/src/theme/typography.dart';
+import 'package:split/src/utils/assets/image_finder.dart';
 
 class CreateBillRootScreen extends StatefulWidget {
   const CreateBillRootScreen({Key? key}) : super(key: key);
@@ -37,9 +38,12 @@ class _CreateBillRootScreenState extends State<CreateBillRootScreen> {
           child: Column(
             children: [
               Spacer(),
+              ImageFinder.uploadIcon(),
+              Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ProgressButton(
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                   strokeWidth: 3,
                   child: Text(
@@ -54,6 +58,7 @@ class _CreateBillRootScreenState extends State<CreateBillRootScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ProgressButton(
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                   strokeWidth: 3,
                   child: Text(

@@ -22,47 +22,49 @@ class _InvoiceElementViewState extends State<InvoiceElementView> {
     return BlocBuilder<BillBloc, BillState>(
       builder: (context, state) {
         return state.newBill.products[widget.productIndex].quantity != 0
-            ? ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                leading: Container(
-                  decoration: BoxDecoration(
-                    color: state.newBill.products[widget.productIndex].is_countable == true
-                        ? Color(0xFFA5D6A7)
-                        : Color(0xFFFFE0B2),
-                    borderRadius: BorderRadius.circular(100.0),
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      color: state.newBill.products[widget.productIndex].is_countable == true
+                          ? Color(0xFFA5D6A7)
+                          : Color(0xFFFFE0B2),
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: state.newBill.products[widget.productIndex].is_countable == true
+                          ? ImageFinder.wholeProductIcon(color: Color(0xFF388E3C))
+                          : ImageFinder.groceriesIcon(color: Color(0xFFF57C00)),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ImageFinder.infoIcon(
-                        color: state.newBill.products[widget.productIndex].is_countable == true
-                            ? Color(0xFF388E3C)
-                            : Color(0xFFF57C00)),
+                  title: SizedBox(
+                    width: 100.0,
+                    child: Text(
+                      state.newBill.products[widget.productIndex].name,
+                      style: CustomTypography.h6().copyWith(color: CustomColor.greysLevel5),
+                    ),
                   ),
-                ),
-                title: SizedBox(
-                  width: 100.0,
-                  child: Text(
-                    state.newBill.products[widget.productIndex].name,
-                    style: CustomTypography.h6().copyWith(color: CustomColor.greysLevel5),
-                  ),
-                ),
-                subtitle: SizedBox(
-                  width: 100.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.newBill.products[widget.productIndex].is_countable
-                            ? "buc " + (state.newBill.products[widget.productIndex].quantity).toInt().toString()
-                            : state.newBill.products[widget.productIndex].quantity.toString() + " kg",
-                      ),
-                      Text(
-                        (state.newBill.products[widget.productIndex].quantity *
-                                    state.newBill.products[widget.productIndex].price)
-                                .toString() +
-                            " lei",
-                      ),
-                    ],
+                  subtitle: SizedBox(
+                    width: 100.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.newBill.products[widget.productIndex].is_countable
+                              ? "buc " + (state.newBill.products[widget.productIndex].quantity).toInt().toString()
+                              : state.newBill.products[widget.productIndex].quantity.toStringAsFixed(3) + " kg",
+                        ),
+                        Text(
+                          (state.newBill.products[widget.productIndex].quantity *
+                                      state.newBill.products[widget.productIndex].price)
+                                  .toStringAsFixed(2) +
+                              " lei",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:split/src/theme/colors.dart';
 import 'package:split/src/theme/typography.dart';
 
 import 'custom_bottom_app_bar_item.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
-  const CustomBottomAppBar(
-      {Key? key,
-      required this.tabs,
-      required this.tabController,
-      required this.onTap})
+  const CustomBottomAppBar({Key? key, required this.tabs, required this.tabController, required this.onTap})
       : super(key: key);
 
   final List<CustomBottomAppBarItem> tabs;
@@ -19,7 +14,7 @@ class CustomBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: CustomColor.blue3(),
+      color: Colors.blueAccent,
       child: SizedBox(
         height: 64,
         child: TabBar(
@@ -31,7 +26,7 @@ class CustomBottomAppBar extends StatelessWidget {
           indicator: BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: CustomColor.blue4(),
+                color: Colors.lightBlueAccent,
                 width: 3.0,
               ),
             ),
@@ -39,10 +34,10 @@ class CustomBottomAppBar extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                CustomColor.blue1(),
+                Colors.blue,
                 MediaQuery.of(context).viewPadding.bottom > 0
-                    ? CustomColor.blue3(opacity: CustomOpacity.inactive)
-                    : CustomColor.blue3(),
+                    ? Color.fromRGBO(Colors.blue.red, Colors.blue.green, Colors.blue.blue, 0.0)
+                    : Colors.blue,
               ],
             ),
           ),

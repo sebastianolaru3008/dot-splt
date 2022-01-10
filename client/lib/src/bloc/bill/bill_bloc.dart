@@ -12,6 +12,7 @@ class BillBloc extends Bloc<BillEvent, BillState> {
         (SetProductQuantityEvent event, Emitter<BillState> emit) => _changeProductQuantity(event, emit));
     on<SetTotalEvent>((SetTotalEvent event, Emitter<BillState> emit) => _changeTotal(event, emit));
     on<SetReceiptEvent>((SetReceiptEvent event, Emitter<BillState> emit) => _changeAll(event, emit));
+    on<UpdateBillEvent>((UpdateBillEvent event, Emitter<BillState> emit) => _updateBill(event, emit));
   }
 
   void _changeBill(SetBillEvent event, Emitter<BillState> emit) {
@@ -28,6 +29,16 @@ class BillBloc extends Bloc<BillEvent, BillState> {
               .toList(),
         ),
         total: 0.0,
+      ),
+    );
+  }
+
+  void _updateBill(UpdateBillEvent event, Emitter<BillState> emit) {
+    emit(
+      BillState(
+        originalBill: event.currentBill,
+        newBill: state.newBill,
+        total: state.total,
       ),
     );
   }

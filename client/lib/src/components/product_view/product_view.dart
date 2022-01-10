@@ -35,10 +35,9 @@ class _ProductViewState extends State<ProductView> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: ImageFinder.infoIcon(
-                  color: state.originalBill.products[widget.productIndex].is_countable == true
-                      ? Color(0xFF388E3C)
-                      : Color(0xFFF57C00)),
+              child: state.originalBill.products[widget.productIndex].is_countable == true
+                  ? ImageFinder.wholeProductIcon(color: Color(0xFF388E3C))
+                  : ImageFinder.groceriesIcon(color: Color(0xFFF57C00)),
             ),
           ),
           title: SizedBox(
@@ -90,6 +89,18 @@ class _ProductViewState extends State<ProductView> {
                                 hintStyle: CustomTypography.h6().copyWith(color: CustomColor.black4()),
                               ),
                               textAlign: TextAlign.center,
+                              onChanged: (String string) {
+                                try {
+                                  num value = double.parse(string);
+                                  BlocProvider.of<BillBloc>(context).add(
+                                    SetProductQuantityEvent(
+                                      currentQuantity: value,
+                                      index: widget.productIndex,
+                                    ),
+                                  );
+                                  setState(() {});
+                                } on FormatException {}
+                              },
                             ),
                     ),
                   ),

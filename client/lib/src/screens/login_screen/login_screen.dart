@@ -4,6 +4,7 @@ import 'package:split/main.dart';
 import 'package:split/src/components/top_app_bar/custom_top_app_bar.dart';
 import 'package:split/src/navigation/routes/routes.dart';
 import 'package:split/src/theme/typography.dart';
+import 'package:split/src/utils/assets/image_finder.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -41,6 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             Spacer(),
+            ImageFinder.loginIcon(),
+            Spacer(),
             TextField(
               controller: usernameController,
               keyboardType: TextInputType.text,
@@ -53,9 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 32.0),
               child: ProgressButton(
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 strokeWidth: 3,
-                child: Text("Sample", style: CustomTypography.h6()),
+                child: Text("Login", style: CustomTypography.h6()),
                 onPressed: (AnimationController controller) async {
                   await httpJob(controller);
                 },

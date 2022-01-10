@@ -42,3 +42,12 @@ class SetReceiptEvent extends BillEvent {
   @override
   List<Object?> get props => [receipt];
 }
+
+class UpdateBillEvent extends BillEvent {
+  const UpdateBillEvent({required this.currentBill});
+
+  final Bill currentBill;
+
+  @override
+  List<Object?> get props => [currentBill];
+}

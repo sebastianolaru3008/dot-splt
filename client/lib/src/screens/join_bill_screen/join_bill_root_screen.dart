@@ -8,6 +8,7 @@ import 'package:split/src/models/bill/bill_json.dart';
 import 'package:split/src/navigation/routes/routes.dart';
 import 'package:split/src/services/billing_service.dart';
 import 'package:split/src/theme/typography.dart';
+import 'package:split/src/utils/assets/image_finder.dart';
 
 class JoinBillRootScreen extends StatefulWidget {
   const JoinBillRootScreen({Key? key}) : super(key: key);
@@ -48,8 +49,10 @@ class _JoinBillRootScreenState extends State<JoinBillRootScreen> {
           child: Column(
             children: [
               Spacer(),
+              ImageFinder.joinIcon(),
+              Spacer(),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
                 child: TextField(
                   controller: tokenController,
                   keyboardType: TextInputType.text,
@@ -58,6 +61,7 @@ class _JoinBillRootScreenState extends State<JoinBillRootScreen> {
                 ),
               ),
               ProgressButton(
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 strokeWidth: 3,
                 child: Text(

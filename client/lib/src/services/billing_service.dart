@@ -36,13 +36,9 @@ class BillingService {
       "products": products,
     };
 
-    print("Request : ${sendRecieptRequestBody}");
-
     final response = await NetworkWrapper.post('/v1/editbill', sendRecieptRequestBody);
 
     final Receipt sendRecieptResponse = Receipt.fromJson(json.decode(response.body) as Map<String, dynamic>);
-
-    print("Response : ${sendRecieptResponse}");
 
     // Simulate a future for response after 2 second.
     return sendRecieptResponse;

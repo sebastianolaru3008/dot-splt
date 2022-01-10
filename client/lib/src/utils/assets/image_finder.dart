@@ -14,20 +14,18 @@ abstract class ImageFinder {
   static const _productsIconOutline = '${_imageFolder}products_outline.svg';
   static const _productsIconFilled = '${_imageFolder}products_filled.svg';
   static const _accountIconOutline = '${_imageFolder}account_outline.svg';
-  static const _accountIconFilled = '${_imageFolder}account_filled.svg';
   static const _leftArrowIcon = '${_imageFolder}left_arrow.svg';
-  static const _profileAppearanceIcon = '${_imageFolder}profile_appearance.svg';
-  static const _profileNotificationIcon = '${_imageFolder}profile_notification.svg';
-  static const _profilePrivacyIcon = '${_imageFolder}profile_privacy.svg';
-  static const _profileWalkthroughIcon = '${_imageFolder}profile_walkthrough.svg';
-  static const _profilePhoneIcon = '${_imageFolder}profile_phone.svg';
-  static const _profileInfoIcon = '${_imageFolder}profile_info.svg';
+  static const _groceriesIcon = '${_imageFolder}groceries.svg';
+  static const _wholeProductIcon = '${_imageFolder}whole_product.svg';
+  static const _uploadIcon = '${_imageFolder}upload.svg';
+  static const _joinIcon = '${_imageFolder}join.svg';
 
   //endregion
 
   //region Common image sizes
   static const _tabBarIconSize = 24.0;
   static const _topAppBarIconSize = 32.0;
+  static const _bigIcon = 128.0;
 
   //endregion
 
@@ -40,6 +38,41 @@ abstract class ImageFinder {
         height: _tabBarIconSize,
         width: _tabBarIconSize,
         color: color ?? Colors.black,
+      );
+
+  static SvgPicture groceriesIcon({Color? color}) => SvgPicture.asset(
+        _groceriesIcon,
+        height: _tabBarIconSize,
+        width: _tabBarIconSize,
+        color: color ?? Colors.black,
+      );
+
+  static SvgPicture wholeProductIcon({Color? color}) => SvgPicture.asset(
+        _wholeProductIcon,
+        height: _tabBarIconSize,
+        width: _tabBarIconSize,
+        color: color ?? Colors.black,
+      );
+
+  static SvgPicture uploadIcon({Color? color}) => SvgPicture.asset(
+        _uploadIcon,
+        height: _bigIcon,
+        width: _bigIcon,
+        color: color ?? Colors.blueAccent,
+      );
+
+  static SvgPicture loginIcon({Color? color}) => SvgPicture.asset(
+        _accountIconOutline,
+        height: _bigIcon,
+        width: _bigIcon,
+        color: color ?? Colors.blueAccent,
+      );
+
+  static SvgPicture joinIcon({Color? color}) => SvgPicture.asset(
+        _joinIcon,
+        height: _bigIcon,
+        width: _bigIcon,
+        color: color ?? Colors.blueAccent,
       );
 
   static SvgPicture productsIcon({required bool isFilled, Color? color}) => SvgPicture.asset(
@@ -56,58 +89,10 @@ abstract class ImageFinder {
         color: color ?? CustomColor.white(),
       );
 
-  static SvgPicture accountIcon({required bool isFilled}) => SvgPicture.asset(
-        isFilled ? _accountIconFilled : _accountIconOutline,
-        height: _tabBarIconSize,
-        width: _tabBarIconSize,
-      );
-
   static SvgPicture leftArrowIcon({Color? color}) => SvgPicture.asset(
         _leftArrowIcon,
         height: _topAppBarIconSize,
         width: _topAppBarIconSize,
-        color: color ?? CustomColor.blue3(),
-      );
-
-  static SvgPicture profileAppearanceIcon({Color? color}) => SvgPicture.asset(
-        _profileAppearanceIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
-        color: color ?? CustomColor.blue3(),
-      );
-
-  static SvgPicture profileNotificationIcon({Color? color}) => SvgPicture.asset(
-        _profileNotificationIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
-        color: color ?? CustomColor.blue3(),
-      );
-
-  static SvgPicture profilePrivacyIcon({Color? color}) => SvgPicture.asset(
-        _profilePrivacyIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
-        color: color ?? CustomColor.white(),
-      );
-
-  static SvgPicture profileWalkthroughIcon({Color? color}) => SvgPicture.asset(
-        _profileWalkthroughIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
-        color: color ?? CustomColor.blue3(),
-      );
-
-  static SvgPicture profilePhoneIcon({Color? color}) => SvgPicture.asset(
-        _profilePhoneIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
-        color: color ?? CustomColor.blue3(),
-      );
-
-  static SvgPicture profileInfoIcon({Color? color}) => SvgPicture.asset(
-        _profileInfoIcon,
-        height: _profileIconSize,
-        width: _profileIconSize,
         color: color ?? CustomColor.blue3(),
       );
 }
